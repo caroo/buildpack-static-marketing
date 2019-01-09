@@ -120,6 +120,11 @@ http {
     return 301 https://www.pkw.de$request_uri;
   }
 
+  # redirect URLs that contain multiple slashes
+  if ($request_uri ~ "^[^?]*?//") {
+    rewrite "^" $scheme://$host$uri permanent;
+  }
+
   <% routes.each do |route, path| %>
     location ~ ^<%= route %>$ {
       set $route <%= route %>;
