@@ -122,7 +122,7 @@ http {
 
   # redirect URLs that contain multiple slashes
   if ($request_uri ~ "^[^?]*?//") {
-    rewrite "^" $scheme://$host$uri permanent;
+    rewrite "^" https://$host$uri permanent;
   }
 
   <% routes.each do |route, path| %>
