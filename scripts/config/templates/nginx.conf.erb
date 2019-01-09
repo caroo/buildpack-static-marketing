@@ -116,8 +116,8 @@ http {
     }
   <% end %>
 
-  if ($host !~* ^www\.(.*)$) {
-    rewrite / https://www.$1 permanent;
+  if ($host = 'pkw.de') {
+    return 301 https://www.pkw.de$request_uri;
   }
 
   <% routes.each do |route, path| %>
