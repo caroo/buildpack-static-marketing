@@ -125,6 +125,10 @@ http {
     rewrite "^" https://$host$uri permanent;
   }
 
+  # redirect autohause URLs that contains slash at the end
+  rewrite ^/autohaus/(.*)-$ https://$host/autohaus/$1 permanent;
+
+
   <% routes.each do |route, path| %>
     location ~ ^<%= route %>$ {
       set $route <%= route %>;
