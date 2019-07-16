@@ -77,6 +77,26 @@ http {
     return 301 https://www.pkw.de$request_uri;
   }
 
+  if ($host = 'pkwde-marketing-production-cdn.herokuapp.com') {
+    set $restrict '1';
+  }
+  if ($http_fastly_orig_host = '') {
+    set $restrict "${restrict}2";
+  }
+  if ($http_x_forwarded_for !~ '79.171.122.202') {
+    set $restrict "${restrict}3";
+  }
+  if ($http_x_forwarded_for !~ '78.94.127.166') {
+    set $restrict "${restrict}4";
+  }
+  if ($http_x_forwarded_for !~ '217.6.222.114') {
+    set $restrict "${restrict}5";
+  }
+
+  if ($restrict = '12345' ) {
+    return 403;
+  }
+
   # redirect URLs that contain multiple slashes
   if ($request_uri ~ "^[^?]*?//") {
     rewrite "^" https://$host$uri permanent;
