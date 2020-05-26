@@ -62,6 +62,14 @@ http {
 
     }
 
+    location ~* "^/assets/(.)+\.(ico|gif|jpe?g|png|svg|webp|woff2?|ttf|ijmap|eot)$" {
+      expires 30d;
+      access_log off;
+      add_header Pragma public;
+      add_header Cache-Control "public";
+      break;
+    }
+
   <% if clean_urls %>
     location ~ \.html$ {
       try_files $uri =404;
