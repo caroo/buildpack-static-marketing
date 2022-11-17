@@ -156,7 +156,11 @@ http {
       # can reuse variable set above
       proxy_pass $<%= hash['name'] %>;
       proxy_ssl_server_name on;
-      <% %w(http https).each do |scheme| %>
+
+      proxy_set_header Pkwde-Load-Balanced 1;
+
+
+  <% %w(http https).each do |scheme| %>
       proxy_redirect <%= hash["redirect_#{scheme}"] %> <%= ENV['BASE_URL'] + location %>;
       <% end %>
     }
