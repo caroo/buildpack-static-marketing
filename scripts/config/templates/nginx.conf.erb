@@ -152,13 +152,15 @@ http {
   <% proxies.each do |location, hash| %>
     set $<%= hash['name'] %> <%= hash['host'] %>;
     location @<%= location %> {
+      proxy_set_header X-Forwarded-Host $host;
+      proxy_set_header X-Forwarded-Server $host;
+      proxy_set_header Pkwde-Load-Balanced 1;
+      proxy_set_header Original-Request-Uri $request_uri;
+
       rewrite ^<%= location %>/?(.*)$ <%= hash['path'] %>/$1 break;
       # can reuse variable set above
       proxy_pass $<%= hash['name'] %>;
       proxy_ssl_server_name on;
-
-      proxy_set_header Pkwde-Load-Balanced 1;
-
 
   <% %w(http https).each do |scheme| %>
       proxy_redirect <%= hash["redirect_#{scheme}"] %> <%= ENV['BASE_URL'] + location %>;
