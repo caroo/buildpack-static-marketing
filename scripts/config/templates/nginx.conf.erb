@@ -152,10 +152,13 @@ http {
   <% proxies.each do |location, hash| %>
     set $<%= hash['name'] %> <%= hash['host'] %>;
     location @<%= location %> {
-      proxy_set_header X-Forwarded-Host $host;
-      proxy_set_header X-Forwarded-Server $host;
-      proxy_set_header Pkwde-Load-Balanced 1;
-      proxy_set_header Original-Request-Uri $request_uri;
+
+      <% if hash['wordpress'] %>
+        proxy_set_header X-Forwarded-Host <%= URI(ENV['BASE_URL']).host %>;
+        proxy_set_header Pkwde-Load-Balanced 1;
+        proxy_set_header Original-Request-Uri $request_uri;
+      <% end %>
+
 
       rewrite ^<%= location %>/?(.*)$ <%= hash['path'] %>/$1 break;
       # can reuse variable set above
