@@ -112,9 +112,9 @@ http {
   if ($host = 'pkwde-marketing-production-cdn.herokuapp.com') {
     set $restrict '1';
   }
-  if ($http_fastly_orig_host = '') {
-    set $restrict "${restrict}2";
-  }
+ # if ($http_fastly_orig_host = '') {
+ #   set $restrict "${restrict}2";
+ # }
   if ($http_x_forwarded_for !~ '79.171.122.202') {
     set $restrict "${restrict}3";
   }
