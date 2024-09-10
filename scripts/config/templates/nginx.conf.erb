@@ -116,9 +116,9 @@ http {
  #   set $restrict "${restrict}2";
  # }
 
-  if ($http_cdn_uid = '') {
-     set $restrict "${restrict}2";
-  }
+  # if ($http_cdn_uid = '') {
+  #    set $restrict "${restrict}2";
+  # }
   if ($http_x_forwarded_for !~ '79.171.122.202') {
     set $restrict "${restrict}3";
   }
